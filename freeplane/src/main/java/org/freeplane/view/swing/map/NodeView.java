@@ -1076,8 +1076,10 @@ public class NodeView extends JComponent implements INodeView {
 	@Override
     public void paint(Graphics g) {
 		if(isSubtreeVisible()) {
+			NodeModel.nodesBeingPainted.push(model);
 			super.paint(g);
 			paintDecoration((Graphics2D) g);
+			NodeModel.nodesBeingPainted.pop();
 		}
     }
 

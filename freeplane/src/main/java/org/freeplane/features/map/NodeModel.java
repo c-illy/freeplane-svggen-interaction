@@ -31,6 +31,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Stack;
+
 import org.freeplane.core.extension.ExtensionContainer;
 import org.freeplane.core.extension.IExtension;
 import org.freeplane.core.util.HtmlUtils;
@@ -66,6 +68,8 @@ public class NodeModel{
 	public static final String NODE_ICON = "icon";
 	public static final String NODE_ICON_SIZE = "icon_size";
 	static public final Object HYPERLINK_CHANGED = "hyperlink_changed";
+
+	public static Stack<NodeModel> nodesBeingPainted = new Stack<NodeModel>();
 
 	private List<NodeModel> children;
 	private NodeModel parent;

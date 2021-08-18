@@ -40,6 +40,10 @@ import org.freeplane.view.swing.map.MapView;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
+import org.apache.batik.svggen.CustomSVGGraphics2D;
+import java.util.ArrayList;
+import org.freeplane.features.map.MapModel;
+
 /**
  * @author foltin
  */
@@ -62,17 +66,25 @@ abstract class ExportVectorGraphic implements IExportEngine {
 			final Document domFactory = impl.createDocument(namespaceURI, "svg", null);
 			final SVGGeneratorContext ctx = createGeneratorContext(domFactory);
 			final GraphicContextDefaults defaults = new GraphicContextDefaults();
+			ctx.setEmbeddedFontsOn(true);
 			defaults.setFont(new Font("Arial", Font.PLAIN, 12));
 			ctx.setGraphicContextDefaults(defaults);
 			ctx.setExtensionHandler(new GradientExtensionHandler());
-			ctx.setPrecision(12);
-			final SVGGraphics2D g2d = new SVGGraphics2D(ctx, false);
+			ctx.setPrecision(3);//keep it low to limit file size, 
+			//can half the size of a ~1MB svg file compared to ctx.setPrecision(12)
+
+			//final SVGGraphics2D g2d = new SVGGraphics2D(ctx, false);
+			final CustomSVGGraphics2D g2d = new CustomSVGGraphics2D(ctx, false);
+			//System.out.println("fillSVGGraphics2D()");
+
 			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_DEFAULT);
 			view.preparePrinting();
 			final Rectangle innerBounds = view.getInnerBounds();
 			g2d.setSVGCanvasSize(new Dimension(innerBounds.width, innerBounds.height));
 			g2d.translate(-innerBounds.x, -innerBounds.y);
+			//System.out.println("prepareCustomSVGGen()");
+			g2d.prepareCustomSVGGen(view.getModel(), view);
 			view.print(g2d);
 			view.endPrinting();
 			return g2d;

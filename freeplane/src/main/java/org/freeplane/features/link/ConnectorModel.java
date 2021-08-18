@@ -29,6 +29,8 @@ import org.freeplane.features.styles.IStyle;
 
 public class ConnectorModel extends NodeLinkModel {
 
+	public static ConnectorModel connectorBeingPainted = null;
+
     final private ConnectorProperties connectorProperties;
 	
 	public ConnectorModel(NodeModel source, String targetID) {

@@ -280,6 +280,7 @@ public class ConnectorView extends AConnectorView{
 		if (!isSourceVisible() && !isTargetVisible()) {
 			return;
 		}
+		ConnectorModel.connectorBeingPainted = connectorModel;
 		boolean targetIsLeft = false;
 		boolean sourceIsLeft = false;
 		final Graphics2D g = (Graphics2D) graphics.create();
@@ -333,6 +334,7 @@ public class ConnectorView extends AConnectorView{
 			drawLabels(g, startPoint, startPoint2, endPoint2, endPoint);
 		}
 		g.setColor(oldColor);
+		ConnectorModel.connectorBeingPainted = null;
 	}
 
 	private void normalizeLength(int normalLength, Point startInclination) {
